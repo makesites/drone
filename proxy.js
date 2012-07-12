@@ -13,15 +13,6 @@ var fs = require('fs'),
 setupExpress();
 setupSSL();
 
-//
-// Create an instance of node-http-proxy
-//
-var proxy = new httpProxy.HttpProxy({
-  target: {
-    host: 'localhost',
-    port: 8000
-  }
-});
 
 // create a proxy for all the direct routes
 httpProxy.createServer( config.routes ).listen( config.proxy.port );
@@ -54,11 +45,21 @@ httpProxy.createServer(function (req, res, proxy) {
 	
 }).listen(8000);
 
+//
+// Create an instance of node-http-proxy
+//
+var proxy = new (httpProxy.RoutingProxy)();
+
 var server = http.createServer(function (req, res) {
   //
   // Proxy normal HTTP requests
   //
-  proxy.proxyRequest(req, res);
+  var host = req.header('host');
+  
+  proxy.proxyRequest(req, res, {
+		host: host,
+		port: 8000
+	});
 });
 
 server.on('upgrade', function(req, socket, head) {
