@@ -45,7 +45,7 @@ httpProxy.createServer(function (req, res, proxy) {
 	// check if this is an express server
 	var domains = config.express.domains;
     var host = req.header('host');
-    var port = (domains.indexOf(host) > -1) ? express.port : config.proxy.port;
+    var port = (domains.indexOf(host) > -1) ? config.express.port : config.proxy.port;
 	
 	proxy.proxyRequest(req, res, {
 		host: host,
