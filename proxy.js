@@ -79,11 +79,11 @@ function setupExpress(){
 	
 	// initiate the express server only if there are domains using it
 	if( domains.length ){ 
-		express.createServer();
+		var server = express.createServer();
 		for(name in domains){
-			express.use(express.vhost( domains[name], require( path + domains[name]).app ) );
+			server.use(express.vhost( domains[name], require( path + domains[name]).app ) );
 		}
-		express.listen( config.express.port );
+		server.listen( config.express.port );
 	}
 }
 
