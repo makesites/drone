@@ -77,29 +77,33 @@ function setupExpress(){
 	var domains = config.express.domains;
 	var path = config.paths.www;
 	
-	express.createServer();
-	for(name in domains){
-		express.use(express.vhost( domains[name], require( path + domains[name]).app ) );
+	// initiate the express server only if there are domains using it
+	if( domains.length ){ 
+		express.createServer();
+		for(name in domains){
+			express.use(express.vhost( domains[name], require( path + domains[name]).app ) );
+		}
+		express.listen( config.express.port );
 	}
-	
-	return express.listen( config.express.port );
 }
 
 // - Create SSL ports
 function setupSSL(){ 
-	var https = config.ssl;
+	var ssl = config.ssl;
 	
-	for(site in https){ 
-	
-		https.createServer(https[site].credentials, function (req, res) {
+	for(site in ssl){ 
+		if( typeof(ssl[site].credentials) != "undefined"){ 
+		
+		https.createServer(ssl[site].credentials, function (req, res) {
 			// redirect all requests back to port 80 (with no ssl)
 			proxy.proxyRequest(req, res, {
-				host: https[site].domains,
+				host: ssl[site].domains,
 				port: config.proxy.port
 			});
 			
-		}).listen(https[site].port);
+		}).listen(ssl[site].port);
 		
+		}
 	}
 }
 
