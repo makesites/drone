@@ -21,7 +21,7 @@ module.exports = {
 	}, 
 	
 	express : { 
-		port : 4000,
+		port : 8002,
 		domains : [
 			"hostname1.com", 
 			"hostname2.com"
