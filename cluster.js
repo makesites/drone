@@ -91,7 +91,7 @@ Master.prototype.shutdown = function() {
 }
 
 var master = new Master({
-    pids: process.cwd() + '/pids',
+    pids: __dirname + '/pids',
     port: 80
 });
 
