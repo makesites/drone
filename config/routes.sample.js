@@ -6,7 +6,7 @@ var fs = require('fs');
 // - ssl ports take up the range 6000-8000
 module.exports = {
 	proxy : { 
-		port : 8080
+		port : 8001
 	}, 
 	
 	paths : {
@@ -16,7 +16,7 @@ module.exports = {
 	routes : {
 		hostnameOnly: true,
 		router: {
-			"yourdomain.com" : 3000
+			"yourdomain.com" : "127.0.0.1:3000"
 		}
 	}, 
 	
