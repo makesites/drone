@@ -125,7 +125,7 @@ function setupSSL(){
 		var key = fs.readFileSync( ssl[site].credentials.key, 'utf8');
 		var cert = fs.readFileSync( ssl[site].credentials.cert, 'utf8');
 		
-		https.createServer(ssl[site].credentials, function (req, res) {
+		https.createServer({key:key, cert:cert}, function (req, res) {
 			// redirect all requests back to the proxy (with no ssl)
 			proxy.proxyRequest(req, res, {
 				host: ssl[site].domains,
