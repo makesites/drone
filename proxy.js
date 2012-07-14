@@ -93,8 +93,8 @@ function setupConfig(){
 // - setup router options
 function setupRouter(){
 	//add nginx sites to the router
-	var domains = config.hosts.nginx;
-	for(i in domains){
+	var nginx = config.hosts.nginx;
+	for(i in nginx){
 		config.routes.router[ domains[i] ] = "127.0.0.1:"+ config.ports.nginx;
 	}
 }
