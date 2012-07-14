@@ -11,6 +11,7 @@ var fs = require('fs'),
 
 // initialization
 setupConfig();
+setupRouter();
 setupExpress();
 setupSSL();
 
@@ -35,7 +36,7 @@ httpProxy.createServer(function (req, res, proxy) {
 	// 
 	
 	// check if this is an express server
-	var domains = config.express.domains;
+	var domains = config.hosts.express;
     var host = req.header('host');
     var port = (domains.indexOf(host) > -1) ? config.ports.express : config.ports.router;
 	
@@ -89,7 +90,16 @@ function setupConfig(){
 	}
 }
 
-// - create express servers
+// - setup router options
+function setupRouter(){
+	//add nginx sites to the router
+	var domains = config.host.nginx;
+	for(i in domains){
+		config.routes.router[ domains[i] ] = "127.0.0.1:"+ config.ports.nginx;
+	}
+}
+
+// - create express server
 function setupExpress(){ 
 	
 	var domains = config.hosts.express;
