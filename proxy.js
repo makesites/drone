@@ -95,7 +95,7 @@ function setupRouter(){
 	//add nginx sites to the router
 	var nginx = config.hosts.nginx;
 	for(i in nginx){
-		config.routes.router[ domains[i] ] = "127.0.0.1:"+ config.ports.nginx;
+		config.routes.router[ nginx[i] ] = "127.0.0.1:"+ config.ports.nginx;
 	}
 }
 
