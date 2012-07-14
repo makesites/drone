@@ -1,0 +1,10 @@
+[
+	{
+		"domain": "yourdomain.com", 
+		"port": 6001, 
+		"credentials": {  
+			key: 'path/to/your/key.pem',
+			cert: 'path/to/your/cert.pem'
+		}
+	}
+]

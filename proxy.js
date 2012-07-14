@@ -7,15 +7,16 @@ var fs = require('fs'),
     https = require('https'),
     httpProxy = require('http-proxy'), 
 	express = require('express'), 
-	config = require('./config/routes');
+	config = require('./config/drone');
 
 // initialization
+setupConfig();
 setupExpress();
 setupSSL();
 
 
 // create a proxy for all the direct routes
-httpProxy.createServer( config.routes ).listen( config.proxy.port );
+httpProxy.createServer( config.routes ).listen( config.ports.router );
 
 
 httpProxy.createServer(function (req, res, proxy) {
@@ -36,14 +37,14 @@ httpProxy.createServer(function (req, res, proxy) {
 	// check if this is an express server
 	var domains = config.express.domains;
     var host = req.header('host');
-    var port = (domains.indexOf(host) > -1) ? config.express.port : config.proxy.port;
+    var port = (domains.indexOf(host) > -1) ? config.ports.express : config.ports.router;
 	
 	proxy.proxyRequest(req, res, {
 		host: host,
 		port: port
 	});
 	
-}).listen(8000);
+}).listen(config.ports.proxy);
 
 //
 // Create an instance of node-http-proxy
@@ -58,7 +59,7 @@ var server = http.createServer(function (req, res) {
   
   proxy.proxyRequest(req, res, {
 		host: host,
-		port: 8000
+		port: config.ports.proxy
 	});
 });
 
@@ -72,19 +73,34 @@ server.on('upgrade', function(req, socket, head) {
 
 
 // Helpers
+// - Import config from external file(s)
+function setupConfig(){
+	if( typeof(config.paths.hosts) != "undefined" ){
+		var hosts = JSON.parse( String( fs.readFileSync(config.paths.hosts, 'utf8') ) );
+		// merge with existing (empty?) arrays
+		config.hosts["express"] = config.hosts["express"].concat(hosts["express"]);
+		config.hosts["nginx"] = config.hosts["nginx"].concat(hosts["nginx"]);
+		// update routes (if available)
+		if( typeof(hosts["route"]) != "undefined" ){
+			for(i in hosts["route"]){
+				config.routes.router[i] = hosts["route"][i];
+			}
+		}
+	}
+}
+
 // - create express servers
 function setupExpress(){ 
 	
-	var domains = config.express.domains;
+	var domains = config.hosts.express;
 	var path = config.paths.www;
-	
 	// initiate the express server only if there are domains using it
 	if( domains.length ){ 
 		var server = express.createServer();
 		for(name in domains){
 			server.use(express.vhost( domains[name], require( path + domains[name]).app ) );
 		}
-		server.listen( config.express.port );
+		server.listen( config.ports.express );
 	}
 }
 
@@ -93,15 +109,18 @@ function setupSSL(){
 	var ssl = config.ssl;
 	
 	for(site in ssl){ 
+	
 		if( typeof(ssl[site].credentials) != "undefined"){ 
 		
+		var key = fs.readFileSync( ssl[site].credentials.key, 'utf8');
+		var cert = fs.readFileSync( ssl[site].credentials.cert, 'utf8');
+		
 		https.createServer(ssl[site].credentials, function (req, res) {
-			// redirect all requests back to port 80 (with no ssl)
+			// redirect all requests back to the proxy (with no ssl)
 			proxy.proxyRequest(req, res, {
 				host: ssl[site].domains,
-				port: config.proxy.port
+				port: config.ports.proxy
 			});
-			
 		}).listen(ssl[site].port);
 		
 		}
@@ -115,7 +134,7 @@ function loadBalance( addresses ){
 	// First, list the servers you want to use in your rotation.
 	// this is an example, pass your address list through routes config
 	//
-	var addresses = [
+	/*var addresses = [
 	  {
 		host: '123.456.7.01',
 		port: 4001
@@ -124,7 +143,7 @@ function loadBalance( addresses ){
 		host: '123.456.7.02',
 		port: 4002
 	  }
-	];
+	];*/
 	//
 	// On each request, get the first location from the list...
 	//
