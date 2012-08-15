@@ -37,9 +37,11 @@ httpProxy.createServer(function (req, res, proxy) {
 	
 	// check if this is an express server
 	var domains = config.hosts.express;
-    var host = req.header('host');
-    var port = (domains.indexOf(host) > -1) ? config.ports.express : config.ports.router;
-	
+    var host = req.header('host') || false;
+    var port = ((domains.indexOf(host) > -1) ? config.ports.express : config.ports.router) || false;
+	// don't continue if there is no host/port
+  	if( !host || !port ) return;
+  
 	proxy.proxyRequest(req, res, {
 		host: host,
 		port: port
@@ -56,11 +58,14 @@ var server = http.createServer(function (req, res) {
   //
   // Proxy normal HTTP requests
   //
-  var host = req.header('host');
+  var host = req.header('host') || false;
+  var port = config.ports.proxy || false;
+  // don't continue if there is no host/port
+  if( !host || !port ) return;
   
   proxy.proxyRequest(req, res, {
 		host: host,
-		port: config.ports.proxy
+		port: port
 	});
 });
 
