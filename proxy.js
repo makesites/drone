@@ -70,10 +70,22 @@ var server = http.createServer(function (req, res) {
 });
 
 server.on('upgrade', function(req, socket, head) {
-  //
-  // Proxy websocket requests too
-  //
-  proxy.proxyWebSocketRequest(req, socket, head);
+	//
+	// Proxy websocket requests too
+	//
+	// check if this is an express server
+	var domains = config.hosts.express;
+    var host = req.header('host') || false;
+    var port = ((domains.indexOf(host) > -1) ? config.ports.express : config.ports.router) || false;
+	// don't continue if there is no host/port
+  	if( !host || !port ) return;
+  
+  
+	proxy.proxyWebSocketRequest(req, socket, head, {
+		host: host,
+		port: port
+	});
+	
 });
 
 
