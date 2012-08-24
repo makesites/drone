@@ -30,6 +30,10 @@ module.exports = {
 			]
 	},
 
-	ssl: {}
+	ssl: {}, 
+	
+	sockets: {
+		max : 1000	
+	}
 
  }

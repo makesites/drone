@@ -81,6 +81,11 @@ server.on('upgrade', function(req, socket, head) {
 // Helpers
 // - Import config from external file(s)
 function setupConfig(){
+	// set config options
+	// - max number of concurrent socket connections - per domain
+	config.sockets || (config.sockets = {});
+	if(config.sockets.max) httpProxy.setMaxSockets(config.sockets.max);
+	// - read hosts file and add domains to the router
 	if( typeof(config.paths.hosts) != "undefined" ){
 		var hosts = JSON.parse( String( fs.readFileSync(config.paths.hosts, 'utf8') ) );
 		// merge with existing (empty?) arrays
