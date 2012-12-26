@@ -38,6 +38,9 @@ httpProxy.createServer(function (req, res, proxy) {
 	// check if this is an express server
 	var domains = config.hosts.express;
     var host = req.header('host') || false;
+	// #4 - remove www prefix
+	if (/^www/.test(host)) host = host.replace(/^www\./, '');
+	// pick the port 
     var port = ((domains.indexOf(host) > -1) ? config.ports.express : config.ports.router) || false;
 	// don't continue if there is no host/port
   	if( !host || !port ) return;
