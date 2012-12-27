@@ -64,17 +64,15 @@ var server = http.createServer(function (req, res) {
 	// don't continue if there is no host/port
 	if( !host || !port ) return;
 	
-	var protocol = request.socket.encrypted ? 'https' : 'http';
-	console.log( req.headers.host );
-	console.log( req.headers.location );
+	var protocol = req.socket.encrypted ? 'https' : 'http';
 	// #4 - Always redirect a www request 
 	if (/^www/.test(host)){ 
-	// remove www prefix
-	host = host.replace(/^www\./, '');
-	// 
-	res.writeHead(301,
-		{Location: protocol+ '://'+host+'/'});
-	response.end();
+		// remove www prefix
+		host = host.replace(/^www\./, '');
+		// 
+		res.writeHead(301,
+			{Location: protocol+ '://'+host + req.url });
+		res.end();
 	}
 	
 	//
