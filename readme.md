@@ -27,3 +27,9 @@ Update the config/ folder with the supported domain names and run the *cluster.j
 node cluster.js
 ```
 
+## Credits 
+
+Created by [Makis Tracend](http://github.com/tracend)
+
+Released under the [MIT lisense](http://makesites.org/licenses/MIT) on [Makesites.org](http://makesites.org)
+
