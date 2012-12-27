@@ -37,7 +37,7 @@ httpProxy.createServer(function (req, res, proxy) {
 	
 	// check if this is an express server
 	var domains = config.hosts.express;
-    var host = req.header('host') || false;
+    var host = req.headers.host || false;
 	// pick the port 
     var port = ((domains.indexOf(host) > -1) ? config.ports.express : config.ports.router) || false;
 	// don't continue if there is no host/port
@@ -59,7 +59,7 @@ var server = http.createServer(function (req, res) {
 	//
 	// Proxy normal HTTP requests
 	//
-	var host = req.header('host') || false; //  request.headers.host
+	var host = req.headers.host || false; //  
 	var port = config.ports.proxy || false;
 	// don't continue if there is no host/port
 	if( !host || !port ) return;
@@ -89,7 +89,7 @@ server.on('upgrade', function(req, socket, head) {
 	//
 	// check if this is an express server
 	var domains = config.hosts.express;
-    var host = req.header('host') || false;
+    var host = req.headers.host || false;
     var port = ((domains.indexOf(host) > -1) ? config.ports.express : config.ports.router) || false;
 	// don't continue if there is no host/port
   	if( !host || !port ) return;
