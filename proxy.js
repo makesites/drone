@@ -144,7 +144,11 @@ function setupExpress(){
 	if( domains.length ){ 
 		var server = express();
 		for(name in domains){
-			server.use(express.vhost( domains[name], require( path + domains[name]).app ) );
+			try{ 
+				server.use(express.vhost( domains[name], require( path + domains[name]).app ) );
+			} catch( e ){
+				// log event : console.log(e);
+			}
 		}
 		server.listen( config.ports.express );
 	}
