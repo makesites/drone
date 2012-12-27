@@ -15,6 +15,8 @@ setupRouter();
 setupExpress();
 setupSSL();
 
+// set the dev flag based on the environment
+var DEV = !(process.env.NODE_ENV == "production");
 
 // create a proxy for all the direct routes
 httpProxy.createServer( config.routes ).listen( config.ports.router );
@@ -38,8 +40,14 @@ httpProxy.createServer(function (req, res, proxy) {
 	// check if this is an express server
 	var domains = config.hosts.express;
     var host = req.headers.host || false;
+	// get the 'naked' domain
+	var domain = host;
+	if (/^dev/.test(domain)){ 
+		// include www here?
+		domain = domain.replace(/^dev\./, '');
+	}
 	// pick the port 
-    var port = ((domains.indexOf(host) > -1) ? config.ports.express : config.ports.router) || false;
+    var port = ((domains.indexOf(domain) > -1) ? config.ports.express : config.ports.router) || false;
 	// don't continue if there is no host/port
   	if( !host || !port ) return;
   
@@ -146,6 +154,11 @@ function setupExpress(){
 		for(name in domains){
 			try{ 
 				server.use(express.vhost( domains[name], require( path + domains[name]).app ) );
+				// optionally add dev domains
+				if( DEV ){ 
+					server.use(express.vhost( "dev."+ domains[name], require( path + domains[name]).app ) );
+				}
+				
 			} catch( e ){
 				// log event : console.log(e);
 			}
