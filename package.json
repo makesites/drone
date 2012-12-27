@@ -1,0 +1,34 @@
+{
+  "name": "drone",
+  "version": "0.2.0",
+  "description": "Multi app node server, designed for minimal footprint and modular architecture",
+  "author": "makesites",
+  "contributors": [
+    { "name": "Makis Tracend", "email": "makis@makesit.es" }
+  ],
+  "homepage": "http://www.makesites.org/drone", 
+  "keywords": ["node.js", "server", "drone"], 
+  "main": "./index.js",
+  "engines": {
+    "node": ">0.6.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/makesites/crudr"
+  },
+  "bugs": {
+    "url": "https://github.com/makesites/crudr/issues"
+  }, 
+  "licenses": [
+    {
+      "type": "MIT license",
+      "url": "http://makesites.org/licenses/MIT"
+    }
+  ], 
+  "dependencies": {
+	"express": "~2.5.x", 
+    "http-proxy": "~0.8.x"
+  }, 
+  "devDependencies": {
+  }
+}
