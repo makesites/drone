@@ -142,7 +142,7 @@ function setupExpress(){
 	var path = config.paths.www;
 	// initiate the express server only if there are domains using it
 	if( domains.length ){ 
-		var server = express.createServer();
+		var server = express();
 		for(name in domains){
 			server.use(express.vhost( domains[name], require( path + domains[name]).app ) );
 		}
