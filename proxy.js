@@ -9,14 +9,15 @@ var fs = require('fs'),
 	express = require('express'), 
 	config = require('./config/drone');
 
+// set the dev flag based on the environment
+var DEV = !(process.env.NODE_ENV == "production");
+
 // initialization
 setupConfig();
 setupRouter();
 setupExpress();
 setupSSL();
 
-// set the dev flag based on the environment
-var DEV = !(process.env.NODE_ENV == "production");
 
 // create a proxy for all the direct routes
 httpProxy.createServer( config.routes ).listen( config.ports.router );
