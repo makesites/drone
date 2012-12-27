@@ -1,5 +1,5 @@
 {
-  "name": "drone",
+  "name": "drone-server",
   "version": "0.2.0",
   "description": "Multi app node server, designed for minimal footprint and modular architecture",
   "author": "makesites",
@@ -14,10 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/makesites/crudr"
+    "url": "https://github.com/makesites/drone"
   },
   "bugs": {
-    "url": "https://github.com/makesites/crudr/issues"
+    "url": "https://github.com/makesites/drone/issues"
   }, 
   "licenses": [
     {
