@@ -4,3 +4,4 @@ config/drone.js
 config/hosts.json
 config/ssl.json
 pids/*
+npm-debug.log
