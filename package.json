@@ -1,6 +1,6 @@
 {
   "name": "drone-server",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Multi app node server, designed for minimal footprint and modular architecture",
   "author": "makesites",
   "contributors": [
