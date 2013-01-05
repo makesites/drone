@@ -154,12 +154,15 @@ function setupExpress(){
 		var server = express();
 		for(name in domains){
 			try{ 
-				var site = require( path + domains[name]);
+				// #12 - supporting server object (as a fallback)
+				var domain = domains[name];
+				var site = require( path + domain );
 				var exec = ( site.app ) ? site.app : site.server;
-				server.use(express.vhost( domains[name], exec ) );
+				// adding vhost
+				server.use(express.vhost( domain, exec ) );
 				// optionally add dev domains
 				if( DEV ){ 
-					server.use(express.vhost( "dev."+ domains[name], exec ) );
+					server.use(express.vhost( "dev."+ domain, exec ) );
 				}
 				
 			} catch( e ){
