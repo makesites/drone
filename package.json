@@ -1,6 +1,6 @@
 {
   "name": "drone-server",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Multi app node server, designed for minimal footprint and modular architecture",
   "author": "makesites",
   "contributors": [
@@ -10,7 +10,7 @@
   "keywords": ["node.js", "server", "drone"], 
   "main": "./index.js",
   "engines": {
-    "node": ">0.6.x"
+    "node": "0.8.x"
   },
   "repository": {
     "type": "git",
