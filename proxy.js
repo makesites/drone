@@ -66,6 +66,8 @@ httpProxy.createServer(function (req, res, proxy) {
 	// check if this is an express server
 	var domains = config.hosts.express;
     var host = req.headers.host || false;
+	//#14 FIX: removing port from host
+	host = host.substring(0, host.indexOf(":") );
 	// get the 'naked' domain
 	var domain = host;
 	if (/^dev/.test(domain)){ 
