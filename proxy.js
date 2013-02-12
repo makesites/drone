@@ -6,8 +6,10 @@ var fs = require('fs'),
     http = require('http'),
     https = require('https'),
     httpProxy = require('http-proxy'), 
-	express = require('express'), 
-	config = require('./config/drone');
+	express = require('express'),
+    crypto = require("crypto"), 
+	config = require('./config/drone')
+	ssl = { creds : {}, options : {} };
 
 // set the dev flag based on the environment
 var DEV = !(process.env.NODE_ENV == "production");
@@ -19,11 +21,24 @@ setupExpress();
 setupSSL();
 
 
-// create a proxy for all the direct routes
+//
+// Create an instance of node-http-proxy
+//
+var proxy = new (httpProxy.RoutingProxy)();
+
+// a proxy for all the direct routes ( host -> ip:port )
 httpProxy.createServer( config.routes ).listen( config.ports.router );
+//
+// create a standalone HTTPS proxy server
+//
+//httpProxy.createServer( ssl.options ).listen( 443 );
 
-
+// main proxy logic
 httpProxy.createServer(function (req, res, proxy) {
+	//
+	// Proxy both HTTP & HTTPS requests
+	//
+	
 	//
 	// Put your custom server logic here
 	//
@@ -37,6 +52,16 @@ httpProxy.createServer(function (req, res, proxy) {
 	//} else {	
 	//}
 	// 
+	var protocol = req.socket.encrypted ? 'https' : 'http';
+	// #4 - Always redirect a www request 
+	if (/^www/.test(host)){ 
+		// remove www prefix
+		host = host.replace(/^www\./, '');
+		// 
+		res.writeHead(301,
+			{Location: protocol+ '://'+host + req.url });
+		res.end();
+	}
 	
 	// check if this is an express server
 	var domains = config.hosts.express;
@@ -59,61 +84,22 @@ httpProxy.createServer(function (req, res, proxy) {
 	
 }).listen(config.ports.proxy);
 
+
+
+
 //
-// Create an instance of node-http-proxy
+// Server
 //
-var proxy = new (httpProxy.RoutingProxy)();
-
-var server = http.createServer(function (req, res) {
-	//
-	// Proxy normal HTTP requests
-	//
-	var host = req.headers.host || false; //  
-	var port = config.ports.proxy || false;
-	// don't continue if there is no host/port
-	if( !host || !port ) return;
-	
-	var protocol = req.socket.encrypted ? 'https' : 'http';
-	// #4 - Always redirect a www request 
-	if (/^www/.test(host)){ 
-		// remove www prefix
-		host = host.replace(/^www\./, '');
-		// 
-		res.writeHead(301,
-			{Location: protocol+ '://'+host + req.url });
-		res.end();
-	}
-	
-	//
-	proxy.proxyRequest(req, res, {
-		host: host,
-		port: port
-	});
-	
-});
-
-server.on('upgrade', function(req, socket, head) {
-	//
-	// Proxy websocket requests too
-	//
-	// check if this is an express server
-	var domains = config.hosts.express;
-    var host = req.headers.host || false;
-    var port = ((domains.indexOf(host) > -1) ? config.ports.express : config.ports.router) || false;
-	// don't continue if there is no host/port
-  	if( !host || !port ) return;
-  
-  
-	proxy.proxyWebSocketRequest(req, socket, head, {
-		host: host,
-		port: port
-	});
-	
-});
+//
+// - regular requests
+var server = http.createServer( proxyRequest );
+// - websockets
+server.on('upgrade', proxySocket);
 
 
-
-// Helpers
+//
+// Setup
+//
 // - Import config from external file(s)
 function setupConfig(){
 	// set config options
@@ -132,6 +118,12 @@ function setupConfig(){
 				config.routes.router[i] = hosts["route"][i];
 			}
 		}
+	}
+	// setup ssl
+	if( typeof(config.paths.ssl) != "undefined" ){
+		var ssl = JSON.parse( String( fs.readFileSync(config.paths.ssl, 'utf8') ) );
+		// merge with existing (empty?) arrays
+		config.ssl = config.ssl.concat(ssl);
 	}
 }
 
@@ -175,25 +167,72 @@ function setupExpress(){
 
 // - Create SSL ports
 function setupSSL(){ 
-	var ssl = config.ssl;
+	// using the global ssl object...
+	ssl.options = {
+		https: {
+			SNICallback: function(hostname){
+				return ssl.creds[hostname];
+			}
+		},
+  		hostnameOnly: true,
+		router: {}
+	};
 	
-	for(site in ssl){ 
-	
-		if( typeof(ssl[site].credentials) != "undefined"){ 
-		
-		var key = fs.readFileSync( ssl[site].credentials.key, 'utf8');
-		var cert = fs.readFileSync( ssl[site].credentials.cert, 'utf8');
-		
-		https.createServer({key:key, cert:cert}, function (req, res) {
-			// redirect all requests back to the proxy (with no ssl)
-			proxy.proxyRequest(req, res, {
-				host: ssl[site].domains,
-				port: config.ports.proxy
-			});
-		}).listen(ssl[site].port);
-		
+	for(var host in config.ssl){ 
+		var site = config.ssl[host];
+		if( typeof site.credentials != "undefined" || typeof site.domain != "undefined"){ 
+			
+			var key = fs.readFileSync( site.credentials.key, 'utf8');
+			var cert = fs.readFileSync( site.credentials.cert, 'utf8');
+			
+			ssl.options.router[site.domain] = "127.0.0.1:"+config.ports.proxy;
+			ssl.creds[site.domain] = credentials({key:key, cert:cert});
+			
 		}
 	}
+}
+
+//
+// Proxies
+//
+function proxyRequest(req, res) {
+	
+	var host = req.headers.host || false; //  
+	var port = config.ports.proxy || false;
+	// don't continue if there is no host/port
+	if( !host || !port ) return;
+	
+	//
+	proxy.proxyRequest(req, res, {
+		host: host,
+		port: port
+	});
+	
+}
+
+function proxySocket(req, socket, head) {
+	// check if this is an express server
+	var domains = config.hosts.express;
+    var host = req.headers.host || false;
+    var port = ((domains.indexOf(host) > -1) ? config.ports.express : config.ports.router) || false;
+	// don't continue if there is no host/port
+  	if( !host || !port ) return;
+  
+  
+	proxy.proxyWebSocketRequest(req, socket, head, {
+		host: host,
+		port: port
+	});
+	
+}
+
+// Helpers
+
+//
+// generic function to load the credentials context from disk
+//
+function credentials( options ) {
+  return crypto.createCredentials(options).context;
 }
 
 
@@ -226,10 +265,10 @@ function loadBalance( addresses ){
 	//
 	return target;
 	
-}
+};
 
 
 //
-// Create the target HTTPS server for both cases
+// Create the targets HTTPS server for both cases
 //
 module.exports = server; 
