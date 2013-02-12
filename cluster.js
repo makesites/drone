@@ -44,7 +44,8 @@ function Master(options) {
 
     this.createWorker = function () {
         var worker = cluster.fork();
-        fs.writeFileSync(this.options.pids + '/worker.' + worker.pid + '.pid', worker.pid);
+		//#13 FIX - replacing worker.pid with worker.id
+		fs.writeFileSync(this.options.pids + '/worker.' + worker.id + '.pid', worker.id);
     }
 }
 
