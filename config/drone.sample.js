@@ -11,7 +11,8 @@ module.exports = {
 			proxy 			: "8000",
 			router			: "8001",
 			express			: "8002",
-			nginx	    		: "3000"
+			nginx	    		: "3000",
+			ssl	            	: "443"
 	},
 	
 	routes : {

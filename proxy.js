@@ -31,7 +31,7 @@ httpProxy.createServer( config.routes ).listen( config.ports.router );
 //
 // create a standalone HTTPS proxy server
 //
-//httpProxy.createServer( ssl.options ).listen( 443 );
+httpProxy.createServer( ssl.options ).listen( config.ports.ssl );
 
 // main proxy logic
 httpProxy.createServer(function (req, res, proxy) {
@@ -95,7 +95,6 @@ httpProxy.createServer(function (req, res, proxy) {
 var server = http.createServer( proxyRequest );
 // - websockets
 server.on('upgrade', proxySocket);
-
 
 //
 // Setup
