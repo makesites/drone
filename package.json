@@ -1,17 +1,13 @@
 {
   "name": "drone-server",
-  "version": "0.4.0",
-  "description": "Multi app node server, designed for minimal footprint and modular architecture",
+  "version": "0.5.0",
   "author": "makesites",
   "contributors": [
     { "name": "Makis Tracend", "email": "makis@makesit.es" }
   ],
   "homepage": "http://www.makesites.org/drone", 
+  "description": "Multi app node server, designed for minimal footprint and modular architecture",
   "keywords": ["node.js", "server", "drone"], 
-  "main": "./index.js",
-  "engines": {
-    "node": "0.8.x"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/makesites/drone"
@@ -25,6 +21,10 @@
       "url": "http://makesites.org/licenses/MIT"
     }
   ], 
+  "engines": {
+    "node": "0.8.x"
+  },
+  "main": "index",
   "dependencies": {
 	"express": "~3.0.x", 
     "http-proxy": "~0.8.x"
