@@ -12,10 +12,10 @@ Uses the cluster library from the Node.js API to reach maximum performance in a 
 ## Features
 
 * Multi-core support
-* Can redirect to other ports and/or IPs
-* Multi-app support (using express vhosts)
+* Redirect to other ports and/or IPs
+* Multi-app environment using express vhosts
+* Nginx integration 
 * Server monitoring using Monit *
-* Nginx integration *
 
 ```* in the AMI version```
 
