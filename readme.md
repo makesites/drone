@@ -1,4 +1,8 @@
-## Drone server
+```                                            
+░ █ ▀ ▀ ▄ 　░ █ ▀ ▀ █ 　░ █ ▀ ▀ ▀ █ 　░ █ ▄ ─ ░ █ 　░ █ ▀ ▀ ▀ 　
+░ █ ─ ░ █ 　░ █ ▄ ▄ ▀ 　░ █ ─ ─ ░ █ 　░ █ ░ █ ░ █ 　░ █ ▀ ▀ ▀ 　
+░ █ ▄ ▄ ▀ 　░ █ ─ ░ █ 　░ █ ▄ ▄ ▄ █ 　░ █ ─ ─ ▀ █ 　░ █ ▄ ▄ ▄ 　
+```
 
 A node js app that redirects to other express apps or server ports... designed with minimal footprint and modular architecture in mind.
 
@@ -33,3 +37,4 @@ Created by [Makis Tracend](http://github.com/tracend)
 
 Released under the [MIT lisense](http://makesites.org/licenses/MIT) on [Makesites.org](http://makesites.org)
 
+ASCII logo by [Tarty](http://fsymbols.com/generators/tarty/) (brighter, perforated)
