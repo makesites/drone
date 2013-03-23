@@ -4,37 +4,53 @@
 ░ █ ▄ ▄ ▀ 　░ █ ─ ░ █ 　░ █ ▄ ▄ ▄ █ 　░ █ ─ ─ ▀ █ 　░ █ ▄ ▄ ▄ 　
 ```
 
-A node js app that redirects to other express apps or server ports... designed with minimal footprint and modular architecture in mind.
+A node module acting as a server gateway to ther web apps... designed with minimal footprint and modular architecture in mind.
+
+Uses the cluster library from the Node.js API to reach maximum performance in a multi-core environment. Can redirect by proxy to websites served by express.js or nginx and even to other IPs.
 
 
 ## Features
 
-* Uses the cluster library from the Node.js API to reach maximum performance in a multi-core environment.
-* Can redirect by proxy to websites served by express.js or nginx and even to other IPs on the same or other servers.
+* Multi-core support
+* Can redirect to other ports and/or IPs
+* Multi-app support (using express vhosts)
+* Server monitoring using Monit *
+* Nginx integration *
+
+```* in the AMI version```
 
 
 ## Install 
 
-Directly from github: 
-```
-git clone git://github.com/makesites/drone.git
-```
-or as an npm module
+To include drone to an existing app/setup simply install the node module: 
 ```
 npm install drone-server
 ```
+or clone directly from github: 
+```
+git clone git://github.com/makesites/drone.git
+```
+If you're starting fresh you may also consider installing the [AWS AMI](https://aws.amazon.com/amis/drone-server), although you may need to update the software manually to bring it to its latest version...
+
 
 ## Usage 
 
-Update the config/ folder with the supported domain names and run the *cluster.js* file: 
+Update the ```config/``` folder (using the sample files) with the supported domain names and run the *server.js* file: 
 ```
-node cluster.js
+node server.js
 ```
+Read the online docs for more detailed info: 
+[https://github.com/makesites/drone/wiki](https://github.com/makesites/drone/wiki)
+
 
 ## Credits 
 
-Created by [Makis Tracend](http://github.com/tracend)
+Created by [Makis Tracend](http://github.com/tracend) ( [Full list of contributors](https://github.com/makesites/drone/contributors) )
 
-Released under the [MIT lisense](http://makesites.org/licenses/MIT) on [Makesites.org](http://makesites.org)
+Originally developed to become the backbone for the [K&D Interactive](http://kdi.co) network.
 
 ASCII logo by [Tarty](http://fsymbols.com/generators/tarty/) (brighter, perforated)
+
+Distributed by [Makesites.org](http://makesites.org)
+
+Released under the [MIT lisense](http://makesites.org/licenses/MIT)
