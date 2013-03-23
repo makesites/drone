@@ -18,7 +18,7 @@ module.exports = {
 	routes : {
 		hostnameOnly: false,
 		router: {
-			//"localhost" : "127.0.0.1:80"
+				"localhost" : "127.0.0.1:3000"
 			}
 	}, 
 	
