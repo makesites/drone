@@ -4,7 +4,7 @@
 ░ █ ▄ ▄ ▀ 　░ █ ─ ░ █ 　░ █ ▄ ▄ ▄ █ 　░ █ ─ ─ ▀ █ 　░ █ ▄ ▄ ▄ 　
 ```
 
-A node module acting as a server gateway to ther web apps... designed with minimal footprint and modular architecture in mind.
+A node module acting as a server gateway to other web apps - designed with minimal footprint and modular architecture in mind.
 
 Uses the cluster library from the Node.js API to reach maximum performance in a multi-core environment. Can redirect by proxy to websites served by express.js or nginx and even to other IPs.
 
