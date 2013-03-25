@@ -8,11 +8,11 @@ module.exports = {
 			//ssl : __dirname +"/ssl.json"
 	},
 	ports : {
-			//proxy 			: "8000",
-			//router			: "8001",
-			express			: "8002",
-			nginx	    		: "3000",
-			ssl	            	: "443"
+			http 			: "80", 
+			router 		: "8000",
+			express 		: "8002",
+			nginx 		: "3000",
+			ssl 			: "443"
 	},
 	
 	routes : {

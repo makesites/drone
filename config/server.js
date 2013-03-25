@@ -1,3 +1,7 @@
 module.exports = {
-	"port" : 80
+	"ssl" : true, 
+	"ports" : {
+		"http" : 80,
+		"https" : 443
+	}
 }
