@@ -7,11 +7,11 @@
  */
 
 // Setup main app/server
-var cluster = require('./lib/cluster'),
-	proxy = require("./lib/proxy"),
-	config = require('./config/drone')
+//var cluster = require('./lib/cluster'),
+var	proxy = require("./lib/proxy"),
+	config = require('./config/drone');
 
-
+/*
 // Listen to router
 if(process.argv.indexOf('stop') >= 0) {
 	cluster.stop()
@@ -26,6 +26,6 @@ else {
 	});
 
 }
-
+*/
 exports.http = proxy.http || false;
 exports.https = proxy.https || false;
