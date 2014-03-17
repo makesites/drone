@@ -22,12 +22,12 @@
 		}
 	],
 	"engines": {
-		"node": "0.8.x"
+		"node": ">=0.10.x"
 	},
 	"main": "index",
 	"dependencies": {
-		"express": "~3.3.x",
-		"http-proxy": "~0.8.x"
+		"express": "3.4.8",
+		"http-proxy": "1.0.2"
 	},
 	"devDependencies": {
 	}
