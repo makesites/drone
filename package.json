@@ -1,6 +1,6 @@
 {
 	"name": "drone-server",
-	"version": "0.6.6",
+	"version": "0.7.0",
 	"author": "makesites",
 	"contributors": [
 		{ "name": "Makis Tracend", "email": "makis@makesit.es" }
