@@ -27,7 +27,8 @@
 	"main": "index",
 	"dependencies": {
 		"express": "3.4.8",
-		"http-proxy": "1.0.2"
+		"http-proxy": "1.0.2",
+		"cluster-master": "0.2.0"
 	},
 	"devDependencies": {
 	}
