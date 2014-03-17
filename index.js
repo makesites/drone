@@ -8,9 +8,11 @@
 
 // Setup main app/server
 //var cluster = require('./lib/cluster'),
-var	proxy = require("./lib/proxy"),
+var router = require('./lib/router'),
+	proxy = require('./lib/proxy'),
 	config = require('./config/drone');
 
+router(proxy.router);
 /*
 // Listen to router
 if(process.argv.indexOf('stop') >= 0) {
