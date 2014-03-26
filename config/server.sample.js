@@ -1,7 +1,7 @@
 module.exports = {
 	"ssl" : {
-		"cert": "/path/to/server.crt",
 		"key": "/path/to/server.key",
+		"cert": "/path/to/server.crt"
 	},
 	"ports" : {
 		"http" : 80,

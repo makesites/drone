@@ -3,5 +3,6 @@ node_modules
 config/drone.js
 config/hosts.json
 config/ssl.json
+config/server.js
 pids/*
 npm-debug.log
