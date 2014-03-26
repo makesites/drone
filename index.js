@@ -1,19 +1,15 @@
 /*
  * Drone Server
  * Source: https://github.com/makesites/drone
+ *
  * Author: Makis Tracend (@tracend)
- * Released under the MIT license (http://makesites.org/licenses/MIT)
  * Distributed through Makesites.org
+ * Released under the MIT license (http://makesites.org/licenses/MIT)
  */
 
-// Setup main app/server
-//var cluster = require('./lib/cluster'),
-var router = require('./lib/router'),
-	proxy = require('./lib/proxy'),
-	config = require('./config/drone');
+// init cluster
+var cluster = require('./lib/cluster');
 
-router(proxy.router);
-/*
 // Listen to router
 if(process.argv.indexOf('stop') >= 0) {
 	cluster.stop()
@@ -22,12 +18,8 @@ else if(process.argv.indexOf('shutdown') >= 0) {
 	cluster.shutdown();
 }
 else {
-
-	cluster.listen(proxy.router, function() {
+	cluster.listen({}, function() {
 		//console.log('Listening HTTP');
 	});
 
 }
-*/
-exports.http = proxy.http || false;
-exports.https = proxy.https || false;
