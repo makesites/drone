@@ -1,9 +1,10 @@
 [
 	{
-		"domain": "yourdomain.com", 
-		"credentials": {  
+		"domain": "yourdomain.com",
+		"credentials": {
 			"key": "path/to/your/key.pem",
-			"cert": "path/to/your/cert.pem"
+			"cert": "path/to/your/cert.pem",
+			"ca": "path/to/your/intermediate.pem"
 		}
 	}
 ]
