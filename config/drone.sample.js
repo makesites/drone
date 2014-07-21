@@ -1,5 +1,5 @@
 var fs = require('fs');
-// Notes: 
+// Notes:
 // - all php / html sites use nginx, that's listening to port 3000
 module.exports = {
 	paths : {
@@ -8,23 +8,23 @@ module.exports = {
 			//ssl : __dirname +"/ssl.json"
 	},
 	ports : {
-			http 			: "80", 
+			http 			: "80",
 			router 		: "8000",
 			express 		: "8002",
 			nginx 		: "3000",
 			ssl 			: "443"
 	},
-	
+
 	routes : {
 		hostnameOnly: false,
 		router: {
 				"localhost" : "127.0.0.1:3000"
 			}
-	}, 
-	
+	},
+
 	hosts : {
 			express : [
-			//		"hostname1.com", 
+			//		"hostname1.com",
 			//		"hostname2.com"
 			],
 			nginx : [
@@ -32,10 +32,14 @@ module.exports = {
 			]
 	},
 
-	ssl: [], 
-	
+	ssl: [],
+
 	sockets: {
-		max : 1000	
+		max : 1000
+	},
+
+	proxy: {
+		xfwd: true // forward headers
 	}
 
  }
