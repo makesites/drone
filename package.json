@@ -26,10 +26,10 @@
 	},
 	"main": "index",
 	"dependencies": {
-		"express": "3.4.8",
-		"http-proxy": "1.0.2",
-		"cluster-master": "0.2.0",
-		"vhost": "1.0.0"
+		"cluster-master": "0.2.1",
+		"express": "4.12.4",
+		"http-proxy": "1.11.1",
+		"vhost": "3.0.0"
 	},
 	"devDependencies": {
 	}
