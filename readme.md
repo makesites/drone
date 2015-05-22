@@ -11,13 +11,10 @@ Uses the cluster library from the Node.js API to reach maximum performance in a 
 
 ## Features
 
-* Multi-core support
+* Multi-core (cluster) support
 * Redirect to other ports and/or IPs
 * Multi-app environment using express vhosts
 * Nginx integration
-* Server monitoring using Monit *
-
-```* in the AMI version```
 
 
 ## Install
@@ -30,7 +27,6 @@ or clone directly from github:
 ```
 git clone git://github.com/makesites/drone.git
 ```
-If you're starting fresh you may also consider installing the [AWS AMI](https://aws.amazon.com/amis/drone-server), although you may need to update the software manually to bring it to its latest version...
 
 
 ## Usage
@@ -45,12 +41,18 @@ Read the online docs for more detailed info:
 
 ## Credits
 
-Created by [Makis Tracend](http://github.com/tracend) ( [Full list of contributors](https://github.com/makesites/drone/contributors) )
+Initiated by [Makis Tracend](http://github.com/tracend) ( [Full list of contributors](https://github.com/makesites/drone/contributors) )
+
+Distributed by [Makesites.org](http://makesites.org)
+
+### Trivia
 
 Originally developed to become the backbone for the [K&D Interactive](http://kdi.co) network.
 
+### Thanks
+
 ASCII logo by [Tarty](http://fsymbols.com/generators/tarty/) (brighter, perforated)
 
-Distributed by [Makesites.org](http://makesites.org)
+### License
 
 Released under the [MIT lisense](http://makesites.org/licenses/MIT)
