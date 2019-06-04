@@ -27,7 +27,7 @@
 	"main": "index",
 	"dependencies": {
 		"cluster-master": "0.2.1",
-		"express": "4.12.4",
+		"express": "4.16.4",
 		"http-proxy": "1.11.1",
 		"vhost": "3.0.0"
 	},
