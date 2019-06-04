@@ -15,6 +15,7 @@
 	"bugs": {
 		"url": "https://github.com/makesites/drone/issues"
 	},
+	"license": "MIT",
 	"licenses": [
 		{
 			"type": "MIT license",
